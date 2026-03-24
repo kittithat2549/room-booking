@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+}
+.card {
+  background: #1e293b;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 10px;
+}
+input, button {
+  padding: 10px; margin: 5px;
+}
+button { background: #38bdf8; border: none; }
+</style>
+</head>
+<body>
+
+<h1>🏨 Dashboard</h1>
+<button onclick="logout()">Logout</button>
+
+<h2>➕ เพิ่มห้อง</h2>
+<input id="room_number" placeholder="เลขห้อง">
+<input id="price" placeholder="ราคา">
+<button onclick="addRoom()">เพิ่มห้อง</button>
+
+<h2>📋 รายการห้อง</h2>
+<div id="rooms"></div>
+
+<script>
+const API = "https://room-booking-api-ca1g.onrender.com";
+
+function logout() {
+  localStorage.removeItem("user");
+  window.location = "index.html";
+}
+
+async function loadRooms() {
+  const res = await fetch(API + "/api/rooms");
+  const data = await res.json();
+
+  const div = document.getElementById("rooms");
+  div.innerHTML = "";
+
+  data.forEach(r => {
+    div.innerHTML += `
+      <div class="card">
+        ห้อง ${r.room_number} <br>
+        ราคา ${r.price} บาท
+      </div>
+    `;
+  });
+}
+
+// ✅ เพิ่มห้อง + แจ้งสำเร็จ
+async function addRoom() {
+  const room_number = document.getElementById("room_number").value;
+  const price = document.getElementById("price").value;
+
+  const res = await fetch(API + "/api/rooms", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ room_number, price })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("✅ เพิ่มสำเร็จ");
+    loadRooms();
+  } else {
+    alert(data.error);
+  }
+}
+
+loadRooms();
+</script>
+
+</body>
+</html>

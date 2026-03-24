@@ -47,7 +47,32 @@ function loadRooms(){
   });
  });
 }
+// ================= RESET PASSWORD =================
+app.post('/api/reset-password', async (req, res) => {
+  const { email, new_password } = req.body;
 
+  if (!email || !new_password) {
+    return res.status(400).json({ error: 'กรอกข้อมูลไม่ครบ' });
+  }
+
+  try {
+    const hash = await bcrypt.hash(new_password, 10);
+
+    const result = await pool.query(
+      'UPDATE users SET password_hash=$1 WHERE email=$2 RETURNING *',
+      [hash, email.toLowerCase()]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'ไม่พบอีเมลนี้' });
+    }
+
+    res.json({ message: 'เปลี่ยนรหัสผ่านสำเร็จ' });
+
+  } catch (err) {
+    res.status(500).json({ error: 'เกิดข้อผิดพลาด' });
+  }
+});
 // ลบห้อง
 function deleteRoom(id){
  fetch(API+"/api/rooms/"+id,{

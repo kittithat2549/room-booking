@@ -2,11 +2,11 @@
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Register</title>
 <style>
 body {
   font-family: Arial;
-  background: linear-gradient(to right, #f830c3, #2a5298);
+  background: linear-gradient(to right, #11998e, #38ef7d);
   display: flex; justify-content: center; align-items: center;
   height: 100vh;
 }
@@ -17,46 +17,43 @@ body {
 input, button {
   width: 100%; padding: 10px; margin: 8px 0;
 }
-button { background: #2a5298; color: white; border: none; }
-a { font-size: 14px; }
+button { background: green; color: white; border: none; }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h2>🔐 Login</h2>
+  <h2>📝 Register</h2>
+  <input id="username" placeholder="Username">
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-  <a href="forgot.html">ลืมรหัสผ่าน?</a>
-  <a href="register.html">สมัครสมาชิก</a>
+  <button onclick="register()">Register</button>
+  <a href="index.html">กลับไป Login</a>
 </div>
 
 <script>
 const API = "https://room-booking-api-ca1g.onrender.com";
 
-async function login() {
-  const email = emailInput.value;
-  const password = passwordInput.value;
+async function register() {
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-  const res = await fetch(API + "/api/login", {
+  const res = await fetch(API + "/api/register", {
     method: "POST",
     headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ username, email, password })
   });
 
   const data = await res.json();
 
   if (res.ok) {
-    localStorage.setItem("user", JSON.stringify(data));
-    window.location = "dashboard.html";
+    alert("สมัครสำเร็จ");
+    window.location = "index.html";
   } else {
     alert(data.error);
   }
 }
-
-const emailInput = document.getElementById("email");
-const passwordInput = document.getElementById("password");
 </script>
 
 </body>

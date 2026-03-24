@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Forgot Password</title>
+<style>
+body {
+  font-family: Arial;
+  background: linear-gradient(to right, #ff512f, #dd2476);
+  display: flex; justify-content: center; align-items: center;
+  height: 100vh;
+}
+.card {
+  background: white; padding: 30px; border-radius: 10px;
+  width: 300px; text-align: center;
+}
+input, button {
+  width: 100%; padding: 10px; margin: 8px 0;
+}
+button { background: red; color: white; border: none; }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h2>🔑 ลืมรหัสผ่าน</h2>
+
+  <input id="email" placeholder="Email">
+  <input id="new_password" type="password" placeholder="รหัสใหม่">
+
+  <button onclick="resetPassword()">เปลี่ยนรหัสผ่าน</button>
+
+  <a href="index.html">กลับไป Login</a>
+</div>
+
+<script>
+const API = "https://room-booking-api-ca1g.onrender.com";
+
+async function resetPassword() {
+  const email = document.getElementById("email").value;
+  const new_password = document.getElementById("new_password").value;
+
+  const res = await fetch(API + "/api/reset-password", {
+    method: "POST",
+    headers: {"Content-Type":"application/json"},
+    body: JSON.stringify({ email, new_password })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("✅ เปลี่ยนรหัสผ่านสำเร็จ");
+    window.location = "index.html";
+  } else {
+    alert("❌ " + data.error);
+  }
+}
+</script>
+
+</body>
+</html>
