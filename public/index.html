@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Room Booking Login</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 30px;
+      border-radius: 12px;
+      width: 320px;
+      color: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .login-btn {
+      background: #38bdf8;
+      color: white;
+    }
+
+    .register-btn {
+      background: #22c55e;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>🔐 Login</h2>
+
+  <!-- LOGIN -->
+  <input id="login_email" placeholder="Email">
+  <input id="login_password" type="password" placeholder="Password">
+  <button class="login-btn" onclick="login()">Login</button>
+
+  <hr>
+
+  <!-- REGISTER -->
+  <input id="reg_username" placeholder="Username">
+  <input id="reg_email" placeholder="Email">
+  <input id="reg_password" type="password" placeholder="Password">
+  <button class="register-btn" onclick="register()">Register</button>
+</div>
+
+<script>
+const API = "https://room-booking-api-ca1g.onrender.com";
+
+// ================= LOGIN =================
+async function login() {
+  const email = document.getElementById("login_email").value;
+  const password = document.getElementById("login_password").value;
+
+  const res = await fetch(API + "/api/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ email, password })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("✅ Login สำเร็จ");
+    localStorage.setItem("user", JSON.stringify(data));
+    window.location.href = "rooms.html";
+  } else {
+    alert("❌ " + data.error);
+  }
+}
+
+// ================= REGISTER =================
+async function register() {
+  const username = document.getElementById("reg_username").value;
+  const email = document.getElementById("reg_email").value;
+  const password = document.getElementById("reg_password").value;
+
+  const res = await fetch(API + "/api/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ username, email, password })
+  });
+
+  const data = await res.json();
+
+  if (res.ok) {
+    alert("✅ สมัครสำเร็จ");
+  } else {
+    alert("❌ " + data.error);
+  }
+}
+</script>
+
+</body>
+</html>

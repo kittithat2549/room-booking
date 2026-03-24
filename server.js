@@ -7,6 +7,7 @@ const { Pool } = require('pg');
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'));
 
 // ================= DATABASE =================
 const pool = new Pool({
@@ -61,7 +62,9 @@ async function initDB() {
 }
 
 initDB();
-
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
 // ================= ROOT ROUTE (สำคัญมาก) =================
 app.get('/', (req, res) => {
   res.send('Room Booking API is running 🚀');
