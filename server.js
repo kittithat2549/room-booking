@@ -62,12 +62,10 @@ async function initDB() {
 }
 
 initDB();
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
+
 // ================= ROOT ROUTE (สำคัญมาก) =================
 app.get('/', (req, res) => {
-  res.send('Room Booking API is running 🚀');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 // ================= USERS =================
