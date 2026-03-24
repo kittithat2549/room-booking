@@ -26,7 +26,7 @@ a { font-size: 14px; }
 <div class="card">
   <h2>🔐 Login</h2>
   <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
+<input id="password" type="password" placeholder="Password">
   <button onclick="login()">Login</button>
   <a href="forgot.html">ลืมรหัสผ่าน?</a>
   <a href="register.html">สมัครสมาชิก</a>
@@ -36,7 +36,7 @@ a { font-size: 14px; }
 const API = "https://room-booking-api-ca1g.onrender.com";
 
 async function login() {
-  const email = emailInput.value;
+  const email = document.getElementById("email").value.trim().toLowerCase();
   const password = passwordInput.value;
 
   const res = await fetch(API + "/api/login", {
