@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Rooms</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+  background: linear-gradient(135deg, #020617, #0f172a);
+}
+
+.card {
+  backdrop-filter: blur(15px);
+  background: rgba(255,255,255,0.05);
+}
+
+.card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.fade {
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity:0; transform: translateY(15px);}
+  to {opacity:1;}
+}
+</style>
+
+</head>
+
+<body class="text-white min-h-screen">
+
+<!-- Navbar -->
+<nav class="flex justify-between items-center p-5 bg-black/30 backdrop-blur-lg shadow-lg">
+  <h1 class="text-2xl font-bold text-cyan-400">🏨 Booking</h1>
+  <button onclick="logout()" class="bg-red-500 px-4 py-2 rounded hover:bg-red-600">
+    Logout
+  </button>
+</nav>
+
+<div class="p-6">
+
+<!-- Add Room -->
+<div class="card p-5 rounded-xl mb-6 shadow-lg">
+  <h2 class="text-xl mb-3 text-cyan-300">➕ เพิ่มห้อง</h2>
+
+  <div class="flex gap-3">
+    <input id="newRoom" placeholder="เลขห้อง"
+      class="p-3 rounded bg-white/10 border border-white/20 w-full">
+
+    <input id="newPrice" placeholder="ราคา"
+      class="p-3 rounded bg-white/10 border border-white/20 w-full">
+
+    <button onclick="addRoom()"
+      class="bg-green-500 px-5 rounded hover:bg-green-600 transition">
+      เพิ่ม
+    </button>
+  </div>
+</div>
+
+<!-- Room List -->
+<div id="rooms" class="grid md:grid-cols-3 gap-5"></div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
